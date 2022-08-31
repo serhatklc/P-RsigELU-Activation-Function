@@ -44,9 +44,13 @@ class PPRsigELU(Layer):
         self.built = True
 
     def call(self, inputs): #get_output
+        alpha = 0.5
+        beta = 0.5
         #return tf.maximum(0.0,inputs) #RELU
         #return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*self.alpha +inputs, tf.where(inputs <= 0.0, self.alpha * (K.exp(inputs) - 1.0), inputs)) #This section presents single parametric RSigELU activation function. 
-        return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*self.alpha +inputs, tf.where(inputs <= 0.0, self.beta * (K.exp(inputs) - 1.0), inputs)) #This section presents double parametric RSigELU activation function. 
+        #return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*self.alpha +inputs, tf.where(inputs <= 0.0, self.beta * (K.exp(inputs) - 1.0), inputs)) #This section presents double parametric RSigELU activation function. 
+        #return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*alpha +inputs, tf.where(inputs <= 0.0, alpha * (K.exp(inputs) - 1.0), inputs)) #This section presents single  RSigELU activation function. 
+        return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*alpha +inputs, tf.where(inputs <= 0.0, beta * (K.exp(inputs) - 1.0), inputs)) #This section presents double  RSigELU activation function. 
     def get_config(self):
         config = {
                   'alpha_initializer': initializers.serialize(self.alpha_initializer),
