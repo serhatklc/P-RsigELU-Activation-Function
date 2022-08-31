@@ -45,8 +45,8 @@ class PPRsigELU(Layer):
 
     def call(self, inputs): #get_output
         #return tf.maximum(0.0,inputs) #RELU
-        #return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*self.alpha +inputs, tf.where(inputs <= 0.0, self.alpha * (K.exp(inputs) - 1.0), inputs))
-        return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*self.alpha +inputs, tf.where(inputs <= 0.0, self.beta * (K.exp(inputs) - 1.0), inputs))
+        #return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*self.alpha +inputs, tf.where(inputs <= 0.0, self.alpha * (K.exp(inputs) - 1.0), inputs)) #This section presents single parametric RSigELU activation function. 
+        return tf.where(inputs > 1.0,  inputs * K.sigmoid(inputs)*self.alpha +inputs, tf.where(inputs <= 0.0, self.beta * (K.exp(inputs) - 1.0), inputs)) #This section presents double parametric RSigELU activation function. 
     def get_config(self):
         config = {
                   'alpha_initializer': initializers.serialize(self.alpha_initializer),
@@ -58,10 +58,6 @@ class PPRsigELU(Layer):
 
     def compute_output_shape(self, input_shape):
         return input_shape
-
-
-
-
 
 # input image dimensions
 img_rows, img_cols = 28, 28
